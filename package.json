@@ -1,0 +1,17 @@
+{
+    "name": "api_edu_smart",
+    "version": "1.0.0",
+    "description": "API REST for EduSmart",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "nodemon src/index.js"
+    },
+    "author": "Edwin Hernandez",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.17.2",
+        "nodemon": "^2.0.15",
+        "pg": "^8.7.1"
+    }
+}
