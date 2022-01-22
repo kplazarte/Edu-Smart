@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    password: 'sololdu',
+    password: '123',
     database: 'edusmart',
     port: '5432'
 });
@@ -20,12 +20,15 @@ const getUserById = async(req, res) => {
 };
 
 const createUser = async(req, res) => {
-    const { name, email } = req.body;
-    const response = await pool.query('INSERT INTO usuario (name, email) VALUES ($1, $2)', [name, email]);
+    console.log(req.body);
+    const { nombreP, nombreH, fechaN, genero, usuario, password } = req.body;
+    const response = await pool.query('INSERT INTO usuario (nombre_padre,nombre_hijo,nacimiento,id_gen,usuario,password) VALUES ($1, $2, $3, $4, $5, $6)', [nombreP, nombreH, fechaN, genero, usuario, password]);
+
     res.json({
-        message: 'User Added successfully',
+        message: 'Usuario registrado',
+        estado: true,
         body: {
-            user: { name, email }
+            user: { nombreP, nombreH, fechaN, genero, usuario, password }
         }
     })
 };
