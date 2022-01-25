@@ -12,7 +12,12 @@ process.env.DATABASE_URL = 'postgres://postgres:123@localhost:5432/edusmart';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
+
+pool.connect();
 
 const getUsers = async(req, res) => {
     const response = await pool.query('SELECT * FROM usuario ORDER BY id_usuario ASC');
