@@ -8,7 +8,7 @@ const { Pool } = require('pg');
     port: '5432'
 });
  */
-process.env.DATABASE_URL = 'postgres://postgres:123@localhost/edusmart';
+process.env.DATABASE_URL = 'postgres://postgres:123@localhost:5432/edusmart';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
