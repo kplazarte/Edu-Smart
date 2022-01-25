@@ -12,9 +12,6 @@ process.env.DATABASE_URL = 'postgres://postgres:123@localhost:5432/edusmart';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
 });
 
 const getUsers = async(req, res) => {
