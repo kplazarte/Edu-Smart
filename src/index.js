@@ -1,5 +1,5 @@
 const express = require('express');
-
+const PORT = process.env.PORT || 3000
 const app = express();
 
 // middlewares
@@ -14,5 +14,5 @@ app.use(express.urlencoded({ extended: false }));
 // Routes
 app.use(require('./routes/index'));
 
-app.listen(3000);
-console.log('Server on port', 3000);
+app.listen(PORT);
+console.log('Server on port', PORT);
