@@ -8,7 +8,7 @@ const { Pool } = require('pg');
     port: '5432'
 });
  */
-process.env.DATABASE_URL = 'postgres://postgres:123@localhost:5432/edusmart';
+process.env.DATABASE_URL = 'postgres://yurmkyxwvuozrr:512fc9b1da40e905cb6219292d72058824f7c34f02166c6f1da4319eb17e3352@ec2-3-222-49-168.compute-1.amazonaws.com:5432/dc4pailb7l1f52';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -17,7 +17,6 @@ const pool = new Pool({
     }
 });
 
-pool.connect();
 
 const getUsers = async(req, res) => {
     const response = await pool.query('SELECT * FROM usuario ORDER BY id_usuario ASC');
