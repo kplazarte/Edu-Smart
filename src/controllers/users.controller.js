@@ -1,11 +1,16 @@
 const { Pool } = require('pg');
 
+process.env.PG_USER = 'postgres';
+process.env.PG_ENDPOINT = 'localhost';
+process.env.PG_DB = 'edusmart';
+process.env.PG_PASS = '123';
+process.env.PG_PORT = 5432;
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    password: '123',
-    database: 'edusmart',
-    port: '5432'
+    user: process.env.PG_USER, //postgres user
+    host: process.env.PG_ENDPOINT, //localhost (I also tried 127.0.0.1)
+    database: process.env.PG_DB, //database name to connect to
+    password: process.env.PG_PASS, //postgres user password
+    port: process.env.PG_PORT //5432
 });
 
 const getUsers = async(req, res) => {
