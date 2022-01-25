@@ -1,5 +1,7 @@
 const { Pool } = require('pg');
 
+
+// Conexion local
 /* const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
@@ -8,6 +10,8 @@ const { Pool } = require('pg');
     port: '5432'
 });
  */
+
+//Conexión a Postgres heroku
 process.env.DATABASE_URL = 'postgres://yurmkyxwvuozrr:512fc9b1da40e905cb6219292d72058824f7c34f02166c6f1da4319eb17e3352@ec2-3-222-49-168.compute-1.amazonaws.com:5432/dc4pailb7l1f52';
 
 const pool = new Pool({
