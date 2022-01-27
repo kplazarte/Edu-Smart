@@ -5,7 +5,7 @@ const { Pool } = require('pg');
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    password: '123',
+    password: 'sololdu',
     database: 'edusmart',
     port: '5432'
 });
@@ -76,11 +76,17 @@ const getProgresoByModo = async(req, res) => {
     res.json(response.rows);
 }
 
+const getNiveles = async(req, res) => {
+    const response = await pool.query('SELECT * FROM niveles ORDER BY id_nivel ASC');
+    res.status(200).json(response.rows);
+};
+
 module.exports = {
     getUsers,
     getUserById,
     createUser,
     updateUser,
     deleteUser,
-    getProgresoByModo
+    getProgresoByModo,
+    getNiveles
 };
