@@ -85,7 +85,7 @@ const getNiveles = async(req, res) => {
 const getLevelsLeer = async(req, res) => {
     const id = parseInt(req.params.id);
     const nivel = parseInt(req.params.nivel);
-    const response = await pool.query(`SELECT QL.ID_NIVEL,PALABRA,OP1,OP2,OP2,OP4,ANSWER FROM Q_LEER AS QL
+    const response = await pool.query(`SELECT QL.ID_PREGUNTA,PALABRA,OP1,OP2,OP3,OP4,ANSWER FROM Q_LEER AS QL
     LEFT JOIN DATOS_USER AS DU 
     ON QL.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 1
     WHERE QL.ID_NIVEL = ${nivel}  AND ACIERTOS IS NULL 
@@ -96,7 +96,7 @@ const getLevelsLeer = async(req, res) => {
 const getAnsweredLeer = async(req, res) => {
     const id = parseInt(req.params.id);
     const nivel = parseInt(req.params.nivel);
-    const response = await pool.query(`SELECT QL.ID_NIVEL,PALABRA,OP1,OP2,OP2,OP4,ANSWER FROM Q_LEER AS QL
+    const response = await pool.query(`SELECT QL.ID_PREGUNTA,PALABRA,OP1,OP2,OP3,OP4,ANSWER FROM Q_LEER AS QL
     LEFT JOIN DATOS_USER AS DU 
     ON QL.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 1
     WHERE QL.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL 
@@ -108,7 +108,7 @@ const getAnsweredLeer = async(req, res) => {
 const getLevelsEscribir = async(req, res) => {
     const id = parseInt(req.params.id);
     const nivel = parseInt(req.params.nivel);
-    const response = await pool.query(`SELECT QE.ID_NIVEL,IMAGEN,ANSWER,ANSWER2 FROM Q_ESCRIBIR AS QE
+    const response = await pool.query(`SELECT QE.ID_PREGUNTA,IMAGEN,ANSWER,ANSWER2 FROM Q_ESCRIBIR AS QE
     LEFT JOIN DATOS_USER AS DU 
     ON QE.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 2
     WHERE QE.ID_NIVEL = ${nivel}  AND ACIERTOS IS NULL 
@@ -119,7 +119,7 @@ const getLevelsEscribir = async(req, res) => {
 const getAnsweredEscribir = async(req, res) => {
     const id = parseInt(req.params.id);
     const nivel = parseInt(req.params.nivel);
-    const response = await pool.query(`SELECT QE.ID_NIVEL,IMAGEN,ANSWER,ANSWER2 FROM Q_ESCRIBIR AS QE
+    const response = await pool.query(`SELECT QE.ID_PREGUNTA,IMAGEN,ANSWER,ANSWER2 FROM Q_ESCRIBIR AS QE
     LEFT JOIN DATOS_USER AS DU 
     ON QE.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 2
     WHERE QE.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL 
@@ -130,7 +130,7 @@ const getAnsweredEscribir = async(req, res) => {
 const getLevelsComp = async(req, res) => {
     const id = parseInt(req.params.id);
     const nivel = parseInt(req.params.nivel);
-    const response = await pool.query(`SELECT QC.ID_NIVEL,AUDIO,OP1,OP2,OP3,OP4,ANSWER FROM Q_COMP AS QC
+    const response = await pool.query(`SELECT QC.ID_PREGUNTA,AUDIO,OP1,OP2,OP3,OP4,ANSWER FROM Q_COMP AS QC
     LEFT JOIN DATOS_USER AS DU 
     ON QC.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 2
     WHERE QC.ID_NIVEL = ${nivel}  AND ACIERTOS IS NULL 
@@ -141,7 +141,7 @@ const getLevelsComp = async(req, res) => {
 const getAnsweredComp = async(req, res) => {
     const id = parseInt(req.params.id);
     const nivel = parseInt(req.params.nivel);
-    const response = await pool.query(`SELECT QC.ID_NIVEL,AUDIO,OP1,OP2,OP3,OP4,ANSWER FROM Q_COMP AS QC
+    const response = await pool.query(`SELECT QC.ID_PREGUNTA,AUDIO,OP1,OP2,OP3,OP4,ANSWER FROM Q_COMP AS QC
     LEFT JOIN DATOS_USER AS DU 
     ON QC.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 2
     WHERE QC.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL 
