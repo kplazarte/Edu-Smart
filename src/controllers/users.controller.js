@@ -81,6 +81,75 @@ const getNiveles = async(req, res) => {
     res.status(200).json(response.rows);
 };
 
+
+const getLevelsLeer = async(req, res) => {
+    const id = parseInt(req.params.id);
+    const nivel = parseInt(req.params.nivel);
+    const response = await pool.query(`SELECT QL.ID_NIVEL,PALABRA,OP1,OP2,OP2,OP4,ANSWER FROM Q_LEER AS QL
+    LEFT JOIN DATOS_USER AS DU 
+    ON QL.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 1
+    WHERE QL.ID_NIVEL = ${nivel}  AND ACIERTOS IS NULL 
+    ORDER BY QL.ID_PREGUNTA ASC`);
+    res.json(response.rows);
+}
+
+const getAnsweredLeer = async(req, res) => {
+    const id = parseInt(req.params.id);
+    const nivel = parseInt(req.params.nivel);
+    const response = await pool.query(`SELECT QL.ID_NIVEL,PALABRA,OP1,OP2,OP2,OP4,ANSWER FROM Q_LEER AS QL
+    LEFT JOIN DATOS_USER AS DU 
+    ON QL.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 1
+    WHERE QL.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL 
+    ORDER BY QL.ID_PREGUNTA ASC`);
+    res.json(response.rows);
+}
+
+
+const getLevelsEscribir = async(req, res) => {
+    const id = parseInt(req.params.id);
+    const nivel = parseInt(req.params.nivel);
+    const response = await pool.query(`SELECT QE.ID_NIVEL,IMAGEN,ANSWER,ANSWER2 FROM Q_ESCRIBIR AS QE
+    LEFT JOIN DATOS_USER AS DU 
+    ON QE.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 2
+    WHERE QE.ID_NIVEL = ${nivel}  AND ACIERTOS IS NULL 
+    ORDER BY QE.ID_PREGUNTA ASC`);
+    res.json(response.rows);
+}
+
+const getAnsweredEscribir = async(req, res) => {
+    const id = parseInt(req.params.id);
+    const nivel = parseInt(req.params.nivel);
+    const response = await pool.query(`SELECT QE.ID_NIVEL,IMAGEN,ANSWER,ANSWER2 FROM Q_ESCRIBIR AS QE
+    LEFT JOIN DATOS_USER AS DU 
+    ON QE.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 2
+    WHERE QE.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL 
+    ORDER BY QE.ID_PREGUNTA ASC`);
+    res.json(response.rows);
+}
+
+const getLevelsComp = async(req, res) => {
+    const id = parseInt(req.params.id);
+    const nivel = parseInt(req.params.nivel);
+    const response = await pool.query(`SELECT QC.ID_NIVEL,AUDIO,OP1,OP2,OP3,OP4,ANSWER FROM Q_COMP AS QC
+    LEFT JOIN DATOS_USER AS DU 
+    ON QC.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 2
+    WHERE QC.ID_NIVEL = ${nivel}  AND ACIERTOS IS NULL 
+    ORDER BY QC.ID_PREGUNTA ASC`);
+    res.json(response.rows);
+}
+
+const getAnsweredComp = async(req, res) => {
+    const id = parseInt(req.params.id);
+    const nivel = parseInt(req.params.nivel);
+    const response = await pool.query(`SELECT QC.ID_NIVEL,AUDIO,OP1,OP2,OP3,OP4,ANSWER FROM Q_COMP AS QC
+    LEFT JOIN DATOS_USER AS DU 
+    ON QC.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 2
+    WHERE QC.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL 
+    ORDER BY QC.ID_PREGUNTA ASC`);
+    res.json(response.rows);
+}
+
+
 module.exports = {
     getUsers,
     getUserById,
@@ -88,5 +157,11 @@ module.exports = {
     updateUser,
     deleteUser,
     getProgresoByModo,
-    getNiveles
+    getNiveles,
+    getAnsweredLeer,
+    getLevelsLeer,
+    getAnsweredEscribir,
+    getLevelsEscribir,
+    getLevelsComp,
+    getAnsweredComp
 };
