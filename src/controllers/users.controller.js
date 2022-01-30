@@ -5,7 +5,7 @@ const { Pool } = require('pg');
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    password: '123',
+    password: 'sololdu',
     database: 'edusmart',
     port: '5432'
 });
@@ -71,8 +71,9 @@ const deleteUser = async(req, res) => {
 const getProgresoByModo = async(req, res) => {
     const id = parseInt(req.params.id);
     const modo = parseInt(req.params.modo);
-    const response = await pool.query(`SELECT count(*) as id,nivel as title,SUM(aciertos) as aciertos,SUM(errores) as fallos,id_modo FROM datos_user as du,niveles as
-    n WHERE du.id_usuario = ${id} and du.id_nivel = n.id_nivel and du.id_modo = ${modo} group by nivel,id_modo`);
+    const response = await pool.query(`SELECT count(*) as id,nivel as title,SUM(aciertos) as aciertos,SUM(errores) as fallos,id_modo,n.id_nivel 
+    FROM datos_user as du,niveles as
+    n WHERE du.id_usuario = ${id} and du.id_nivel = n.id_nivel and du.id_modo = ${modo} group by nivel,id_modo,n.id_nivel `);
     res.json(response.rows);
 }
 
@@ -132,7 +133,7 @@ const getLevelsComp = async(req, res) => {
     const nivel = parseInt(req.params.nivel);
     const response = await pool.query(`SELECT QC.ID_PREGUNTA,AUDIO,OP1,OP2,OP3,OP4,ANSWER FROM Q_COMP AS QC
     LEFT JOIN DATOS_USER AS DU 
-    ON QC.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 2
+    ON QC.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 3
     WHERE QC.ID_NIVEL = ${nivel}  AND ACIERTOS IS NULL 
     ORDER BY QC.ID_PREGUNTA ASC`);
     res.json(response.rows);
@@ -143,7 +144,7 @@ const getAnsweredComp = async(req, res) => {
     const nivel = parseInt(req.params.nivel);
     const response = await pool.query(`SELECT QC.ID_PREGUNTA,AUDIO,OP1,OP2,OP3,OP4,ANSWER FROM Q_COMP AS QC
     LEFT JOIN DATOS_USER AS DU 
-    ON QC.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 2
+    ON QC.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 3
     WHERE QC.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL 
     ORDER BY QC.ID_PREGUNTA ASC`);
     res.json(response.rows);
