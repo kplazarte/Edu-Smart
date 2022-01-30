@@ -5,7 +5,7 @@ const { Pool } = require('pg');
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    password: 'sololdu',
+    password: '123',
     database: 'edusmart',
     port: '5432'
 });
@@ -85,7 +85,7 @@ const getNiveles = async(req, res) => {
 const getLevelsLeer = async(req, res) => {
     const id = parseInt(req.params.id);
     const nivel = parseInt(req.params.nivel);
-    const response = await pool.query(`SELECT QL.ID_PREGUNTA,PALABRA,OP1,OP2,OP3,OP4,ANSWER FROM Q_LEER AS QL
+    const response = await pool.query(`SELECT QL.ID_PREGUNTA,PALABRA,OP1,OP2,OP3,OP4,ANSWER,CONTESTADA FROM Q_LEER AS QL
     LEFT JOIN DATOS_USER AS DU 
     ON QL.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 1
     WHERE QL.ID_NIVEL = ${nivel}  AND ACIERTOS IS NULL 
@@ -96,7 +96,7 @@ const getLevelsLeer = async(req, res) => {
 const getAnsweredLeer = async(req, res) => {
     const id = parseInt(req.params.id);
     const nivel = parseInt(req.params.nivel);
-    const response = await pool.query(`SELECT QL.ID_PREGUNTA,PALABRA,OP1,OP2,OP3,OP4,ANSWER FROM Q_LEER AS QL
+    const response = await pool.query(`SELECT QL.ID_PREGUNTA,PALABRA,OP1,OP2,OP3,OP4,ANSWER,CONTESTADA FROM Q_LEER AS QL
     LEFT JOIN DATOS_USER AS DU 
     ON QL.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 1
     WHERE QL.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL 
@@ -148,7 +148,17 @@ const getAnsweredComp = async(req, res) => {
     ORDER BY QC.ID_PREGUNTA ASC`);
     res.json(response.rows);
 }
+const getrespuestaContestada = async(req, res) => {
+    const idU = parseInt(req.params.idU);
+    const nivel = parseInt(req.params.nivel);
+    const acierto = parseInt(req.params.acierto);
+    const error = parseInt(req.params.error);
+    const idP = parseInt(req.params.idP);
+    const modo = parseInt(req.params.modo);
 
+    const response = await pool.query(`INSERT INTO public.datos_user( id_usuario, id_nivel, aciertos, errores, id_pregunta, id_modo) VALUES (${idU},${nivel},${acierto},${error},${idP},${modo});`);
+    res.json({ ok: true });
+}
 
 module.exports = {
     getUsers,
@@ -163,5 +173,6 @@ module.exports = {
     getAnsweredEscribir,
     getLevelsEscribir,
     getLevelsComp,
-    getAnsweredComp
+    getAnsweredComp,
+    getrespuestaContestada
 };
