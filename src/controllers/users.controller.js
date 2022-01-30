@@ -73,7 +73,7 @@ const getProgresoByModo = async(req, res) => {
     const modo = parseInt(req.params.modo);
     const response = await pool.query(`SELECT count(*) as id,nivel as title,SUM(aciertos) as aciertos,SUM(errores) as fallos,id_modo,n.id_nivel 
     FROM datos_user as du,niveles as
-    n WHERE du.id_usuario = ${id} and du.id_nivel = n.id_nivel and du.id_modo = ${modo} group by nivel,id_modo,n.id_nivel `);
+    n WHERE du.id_usuario = ${id} and du.id_nivel = n.id_nivel and du.id_modo = ${modo} group by nivel,id_modo,n.id_nivel ORDER BY n.id_nivel`);
     res.json(response.rows);
 }
 
