@@ -100,7 +100,7 @@ const getAnsweredLeer = async(req, res) => {
     const response = await pool.query(`SELECT QL.ID_PREGUNTA,PALABRA,OP1,OP2,OP3,OP4,ANSWER,CONTESTADA FROM Q_LEER AS QL
     LEFT JOIN DATOS_USER AS DU 
     ON QL.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 1
-    WHERE QL.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL 
+    WHERE QL.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL AND CONTESTADA =FALSE
     ORDER BY QL.ID_PREGUNTA ASC`);
     res.json(response.rows);
 }
@@ -123,7 +123,7 @@ const getAnsweredEscribir = async(req, res) => {
     const response = await pool.query(`SELECT QE.ID_PREGUNTA,IMAGEN,ANSWER,ANSWER2 FROM Q_ESCRIBIR AS QE
     LEFT JOIN DATOS_USER AS DU 
     ON QE.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 2
-    WHERE QE.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL 
+    WHERE QE.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL AND CONTESTADA =FALSE
     ORDER BY QE.ID_PREGUNTA ASC`);
     res.json(response.rows);
 }
@@ -145,7 +145,7 @@ const getAnsweredComp = async(req, res) => {
     const response = await pool.query(`SELECT QC.ID_PREGUNTA,AUDIO,OP1,OP2,OP3,OP4,ANSWER FROM Q_COMP AS QC
     LEFT JOIN DATOS_USER AS DU 
     ON QC.ID_PREGUNTA = DU.ID_PREGUNTA AND DU.ID_USUARIO = ${id} AND DU.ID_MODO = 3
-    WHERE QC.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL 
+    WHERE QC.ID_NIVEL = ${nivel}  AND ACIERTOS IS NOT NULL AND CONTESTADA =FALSE
     ORDER BY QC.ID_PREGUNTA ASC`);
     res.json(response.rows);
 }
@@ -161,6 +161,45 @@ const getrespuestaContestada = async(req, res) => {
     res.json({ ok: true });
 }
 
+const updateReadList = async(req, res) => {
+    const id = parseInt(req.params.id);
+    const response = await pool.query('UPDATE q_leer SET contestada = true WHERE id_pregunta = $1', [
+        id
+    ]);
+    res.json('User Updated Successfully');
+};
+
+const updateWriteList = async(req, res) => {
+    const id = parseInt(req.params.id);
+    const response = await pool.query('UPDATE q_escribir SET contestada = true WHERE id_pregunta = $1', [
+        id
+    ]);
+    res.json('User Updated Successfully');
+};
+
+const updateCompList = async(req, res) => {
+    const id = parseInt(req.params.id);
+    const response = await pool.query('UPDATE q_comp SET contestada = true WHERE id_pregunta = $1', [
+        id
+    ]);
+    res.json('User Updated Successfully');
+};
+
+const updateFalseRead = async(req, res) => {
+    const response = await pool.query('UPDATE q_leer SET contestada = false ');
+    res.json('Usuarios Leer en Falso');
+};
+
+const updateFalseWrite = async(req, res) => {
+    const response = await pool.query('UPDATE q_escribir SET contestada = false ');
+    res.json('Usuarios Escribir en Falso');
+};
+
+const updateFalseComp = async(req, res) => {
+    const response = await pool.query('UPDATE q_comp SET contestada = false ');
+    res.json('Usuarios Comprensión en Falso');
+};
+
 module.exports = {
     getUsers,
     getUserById,
@@ -175,5 +214,11 @@ module.exports = {
     getLevelsEscribir,
     getLevelsComp,
     getAnsweredComp,
-    getrespuestaContestada
+    getrespuestaContestada,
+    updateReadList,
+    updateWriteList,
+    updateCompList,
+    updateFalseRead,
+    updateFalseWrite,
+    updateFalseComp
 };

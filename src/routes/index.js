@@ -15,7 +15,14 @@ const {
     getAnsweredLeer,
     getLevelsComp,
     getAnsweredComp,
-    getrespuestaContestada
+    getrespuestaContestada,
+    updateList,
+    updateReadList,
+    updateWriteList,
+    updateCompList,
+    updateFalseRead,
+    updateFalseWrite,
+    updateFalseComp
 } = require('../controllers/users.controller');
 
 router.get('/users', getUsers);
@@ -32,5 +39,12 @@ router.get('/questions/write/:id/:nivel', getLevelsEscribir);
 router.get('/answered/write/:id/:nivel', getAnsweredEscribir);
 router.get('/questions/comp/:id/:nivel', getLevelsComp);
 router.get('/answered/comp/:id/:nivel', getAnsweredComp);
+// router.put('/questions/read/:id', updateReadList);
+router.get('/questions/read/:id', updateReadList);
+router.get('/questions/write/:id', updateWriteList);
+router.get('/questions/comp/:id', updateCompList);
+router.get('/false/read/', updateFalseRead);
+router.get('/false/write/', updateFalseWrite);
+router.get('/false/comp/', updateFalseComp);
 
 module.exports = router;
