@@ -200,6 +200,21 @@ const updateFalseComp = async(req, res) => {
     res.json('Usuarios Comprensión en Falso');
 };
 
+const getAciertos = async(req, res) => {
+    const response = await pool.query(`select du.id_usuario, u.nombre_hijo, sum(aciertos)as taciertos
+    from datos_user as du, usuario as u where du.id_usuario = u.id_usuario
+    group by (du.id_usuario,u.nombre_hijo) order by taciertos DESC`);
+    res.status(200).json(response.rows);
+};
+
+const getAciertosById = async(req, res) => {
+    const id = parseInt(req.params.id);
+    const response = await pool.query(`select id_usuario, sum(aciertos)as taciertos
+    from datos_user where id_usuario = ${id} group by (id_usuario) `);
+    res.status(200).json(response.rows);
+};
+
+
 module.exports = {
     getUsers,
     getUserById,
@@ -220,5 +235,7 @@ module.exports = {
     updateCompList,
     updateFalseRead,
     updateFalseWrite,
-    updateFalseComp
+    updateFalseComp,
+    getAciertos,
+    getAciertosById
 };
